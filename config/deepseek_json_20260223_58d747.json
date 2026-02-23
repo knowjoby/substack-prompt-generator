@@ -1,0 +1,44 @@
+{
+  "providers": [
+    {
+      "id": "openrouter",
+      "name": "OpenRouter",
+      "description": "Access to multiple models including Llama-3, Mixtral, and Claude",
+      "baseUrl": "https://openrouter.ai/api/v1/chat/completions",
+      "models": [
+        "meta-llama/llama-3-8b-instruct",
+        "meta-llama/llama-3-70b-instruct",
+        "mistralai/mistral-7b-instruct",
+        "anthropic/claude-3-haiku"
+      ],
+      "signupUrl": "https://openrouter.ai/keys",
+      "freeCredits": "$1"
+    },
+    {
+      "id": "groq",
+      "name": "Groq",
+      "description": "Fastest inference with free tier",
+      "baseUrl": "https://api.groq.com/openai/v1/chat/completions",
+      "models": [
+        "llama3-70b-8192",
+        "llama3-8b-8192",
+        "mixtral-8x7b-32768"
+      ],
+      "signupUrl": "https://console.groq.com/keys",
+      "freeCredits": "Free (rate limited)"
+    },
+    {
+      "id": "together",
+      "name": "Together AI",
+      "description": "Open source models with generous free credits",
+      "baseUrl": "https://api.together.xyz/v1/chat/completions",
+      "models": [
+        "mistralai/Mixtral-8x7B-Instruct-v0.1",
+        "meta-llama/Llama-3-8b-chat-hf",
+        "meta-llama/Llama-3-70b-chat-hf"
+      ],
+      "signupUrl": "https://api.together.xyz/settings/api-keys",
+      "freeCredits": "$25"
+    }
+  ]
+}

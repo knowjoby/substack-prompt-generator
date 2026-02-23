@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Substack Prompt Generator ✍️</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-5xl font-bold text-gray-800 mb-4">
+                <i class="fas fa-feather-alt text-indigo-600"></i>
+                Substack Prompt Generator
+            </h1>
+            <p class="text-xl text-gray-600">
+                Transform your research into perfect writing prompts using open source LLMs
+            </p>
+            <div class="mt-4 flex justify-center gap-4">
+                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                    <i class="fas fa-cloud"></i> Cloud-based
+                </span>
+                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                    <i class="fab fa-github"></i> Open Source
+                </span>
+                <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
+                    <i class="fas fa-key"></i> Bring your own API key
+                </span>
+            </div>
+        </header>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column: Settings & Configuration -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- API Configuration Card -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-plug text-indigo-600 mr-2"></i>
+                        LLM Provider Configuration
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Select Provider
+                            </label>
+                            <select id="provider" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                <option value="openrouter">OpenRouter (Llama-3, Mixtral)</option>
+                                <option value="groq">Groq (Fastest, Free)</option>
+                                <option value="together">Together AI (Mixtral, Llama)</option>
+                                <option value="huggingface">Hugging Face Inference</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-key text-yellow-600 mr-1"></i>
+                                API Key
+                            </label>
+                            <input type="password" id="apiKey" 
+                                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                placeholder="Enter your API key">
+                            <p class="text-xs text-gray-500 mt-1">
+                                Your key stays in your browser. Never sent to our servers.
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Model
+                            </label>
+                            <select id="model" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                <!-- Populated by JavaScript -->
+                            </select>
+                        </div>
+                        
+                        <button id="testConnection" 
+                            class="w-full bg-gray-100 text-gray-700 p-3 rounded-lg hover:bg-gray-200 transition">
+                            <i class="fas fa-vial mr-2"></i>Test Connection
+                        </button>
+                        
+                        <div id="connectionStatus" class="hidden p-3 rounded-lg text-sm"></div>
+                    </div>
+                </div>
+                
+                <!-- Article Settings Card -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-sliders-h text-indigo-600 mr-2"></i>
+                        Article Settings
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Tone
+                            </label>
+                            <select id="tone" class="w-full p-3 border border-gray-300 rounded-lg">
+                                <option value="conversational">Conversational</option>
+                                <option value="professional">Professional</option>
+                                <option value="inspirational">Inspirational</option>
+                                <option value="educational">Educational</option>
+                                <option value="storytelling">Storytelling</option>
+                                <option value="provocative">Provocative</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Article Length
+                            </label>
+                            <select id="length" class="w-full p-3 border border-gray-300 rounded-lg">
+                                <option value="500">Short (500 words)</option>
+                                <option value="1000" selected>Medium (1000 words)</option>
+                                <option value="2000">Long (2000 words)</option>
+                                <option value="3000">Deep Dive (3000+ words)</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Article Style
+                            </label>
+                            <select id="style" class="w-full p-3 border border-gray-300 rounded-lg">
+                                <option value="auto">Auto-detect</option>
+                                <option value="standard">Standard</option>
+                                <option value="educational">Educational</option>
+                                <option value="storytelling">Storytelling</option>
+                                <option value="listicle">Listicle</option>
+                                <option value="opinion">Opinion Piece</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Target Audience
+                            </label>
+                            <input type="text" id="audience" 
+                                class="w-full p-3 border border-gray-300 rounded-lg"
+                                placeholder="e.g., remote workers, founders">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Key Focus
+                            </label>
+                            <input type="text" id="focus" 
+                                class="w-full p-3 border border-gray-300 rounded-lg"
+                                placeholder="e.g., productivity, mindset">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Tips -->
+                <div class="bg-indigo-50 rounded-xl p-6">
+                    <h3 class="font-semibold text-indigo-900 mb-3">
+                        <i class="fas fa-lightbulb mr-2"></i>Tips for Best Results
+                    </h3>
+                    <ul class="space-y-2 text-sm text-indigo-800">
+                        <li>• Include specific facts and numbers</li>
+                        <li>• Mention your target audience</li>
+                        <li>• Add controversial angles if any</li>
+                        <li>• Include quotes or anecdotes</li>
+                        <li>• Note the desired outcome</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Right Column: Input & Output -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Input Card -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-paste text-indigo-600 mr-2"></i>
+                        Your Research Summary
+                    </h2>
+                    
+                    <textarea id="summary" rows="8" 
+                        class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-gray-700"
+                        placeholder="Paste your research notes, bullet points, or summary here...&#10;&#10;Example:&#10;• Remote workers save 72 minutes daily without commute&#10;• Deep work blocks increase productivity by 40%&#10;• Async communication reduces stress levels&#10;• Loneliness is the biggest challenge (63% report it)&#10;• Rooftop gardens in offices could help with mental health"></textarea>
+                    
+                    <div class="flex justify-between items-center mt-4">
+                        <div class="text-sm text-gray-500">
+                            <i class="far fa-file-alt mr-1"></i>
+                            <span id="wordCount">0</span> words
+                        </div>
+                        <button id="generateBtn" 
+                            class="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition flex items-center gap-2 text-lg font-semibold">
+                            <i class="fas fa-magic"></i>
+                            Generate Perfect Prompt
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Output Card -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-robot text-indigo-600 mr-2"></i>
+                        Generated Prompt
+                    </h2>
+                    
+                    <div id="outputContainer" class="hidden">
+                        <textarea id="output" rows="12" 
+                            class="w-full p-4 border border-gray-300 rounded-lg font-mono text-sm bg-gray-50"
+                            readonly></textarea>
+                        
+                        <div class="flex justify-between items-center mt-4">
+                            <div class="text-sm text-gray-600" id="promptMetadata"></div>
+                            <button id="copyBtn" 
+                                class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2">
+                                <i class="far fa-copy"></i>
+                                Copy to Clipboard
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="placeholder" class="text-center py-16 text-gray-400 border-2 border-dashed rounded-lg">
+                        <i class="fas fa-arrow-up text-4xl mb-4"></i>
+                        <p>Enter your summary and click generate</p>
+                        <p class="text-sm mt-2">Your prompt will appear here</p>
+                    </div>
+                    
+                    <!-- Loading Spinner -->
+                    <div id="loading" class="hidden text-center py-12">
+                        <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mb-4"></div>
+                        <p class="text-gray-600">Processing with cloud LLM...</p>
+                        <p class="text-sm text-gray-400 mt-2">This may take a few seconds</p>
+                    </div>
+                </div>
+                
+                <!-- History Card -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-history text-indigo-600 mr-2"></i>
+                        Recent Prompts
+                        <span class="ml-auto text-sm font-normal text-gray-500">(Stored locally in browser)</span>
+                    </h2>
+                    
+                    <div id="historyList" class="space-y-2 max-h-48 overflow-y-auto">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                    
+                    <button id="clearHistory" class="text-sm text-red-600 hover:text-red-800 mt-4">
+                        <i class="far fa-trash-alt mr-1"></i>Clear History
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg transform transition-transform duration-300 translate-y-20">
+        Notification
+    </div>
+    
+    <!-- JavaScript Files -->
+    <script src="js/templates.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api-clients.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
